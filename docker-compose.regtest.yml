@@ -2,8 +2,9 @@ version: "3"
 
 services:
   nbxplorer:
+    container_name: nbxplorer
     ports: 
-      - 80:32838
+      - 32838:32838
     expose:
       - 32838
     build:
@@ -12,17 +13,18 @@ services:
       NBXPLORER_NETWORK: regtest
       NBXPLORER_BIND: 0.0.0.0:32838
       NBXPLORER_NOAUTH: 1
-      NBXPLORER_BTCRPCURL: http://bitcoind:49372/
+      NBXPLORER_BTCRPCURL: http://bitcoind-main:49372/
       NBXPLORER_BTCRPCUSER: ceiwHEbqWI83
       NBXPLORER_BTCRPCPASSWORD: DwubwWsoo3
-      NBXPLORER_BTCNODEENDPOINT: bitcoind:8332
+      NBXPLORER_BTCNODEENDPOINT: bitcoind-main:8332
     links:
-      - bitcoind
+      - bitcoind-main
 
-  bitcoind:
-    image: nicolasdorier/docker-bitcoin:0.15.0.1
+  bitcoind-main:
+    build:
+      context: ../docker-bitcoin
+    container_name: bitcoind-main
     environment:
-      BITCOIN_EXTRA_ARGS: "regtest=1\nrpcport=49372\nport=8332"
       BITCOIN_RPC_USER: ceiwHEbqWI83
       BITCOIN_RPC_PASSWORD: DwubwWsoo3
     expose:
@@ -30,3 +32,4 @@ services:
       - "8332"
     ports:
       - 49372:49372
+      - 8332:8332

@@ -133,8 +133,8 @@ namespace NBXplorer.Configuration
 			}
 			Logs.Configuration.LogInformation("RPC connection successfull");
 
-			var getInfo = await rpcClient.SendCommandAsync(RPCOperations.getinfo);
-			var version = ((JObject)getInfo.Result)["version"].Value<int>();
+			var getNetworkInfo = await rpcClient.SendCommandAsync(RPCOperations.getnetworkinfo);
+			var version = ((JObject)getNetworkInfo.Result)["version"].Value<int>();
 			if(version < networkInfo.MinRPCVersion)
 			{
 				Logs.Configuration.LogError($"The minimum Bitcoin version required is {networkInfo.MinRPCVersion} (detected: {version})");
